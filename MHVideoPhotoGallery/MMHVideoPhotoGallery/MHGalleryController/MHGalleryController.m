@@ -68,11 +68,6 @@
     return self.galleryItems.count;
 }
 
--(void)reloadData {
-    [self.imageViewerViewController reloadData];
-    [self.overViewViewController.collectionView reloadData];
-}
-
 @end
 
 
@@ -84,7 +79,7 @@
 
     if(galleryController.UICustomization.useCustomBackButtonImageOnImageViewer){
         UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:MHTemplateImage(@"ic_square")
-                                                                        style:UIBarButtonItemStylePlain
+                                                                        style:UIBarButtonItemStyleBordered
                                                                        target:self
                                                                        action:nil];
         galleryController.overViewViewController.navigationItem.backBarButtonItem = backBarButton;
@@ -112,7 +107,7 @@
 
 
 - (void)dismissViewControllerAnimated:(BOOL)flag dismissImageView:(UIImageView*)dismissImageView completion:(void (^)(void))completion{
-    if ([self isKindOfClass:[UINavigationController class]] && [[(UINavigationController*)self viewControllers].lastObject isKindOfClass:MHGalleryImageViewerViewController.class]) {
+    if ([[(UINavigationController*)self viewControllers].lastObject isKindOfClass:MHGalleryImageViewerViewController.class]) {
         MHGalleryImageViewerViewController *imageViewer = [(UINavigationController*)self viewControllers].lastObject;
         imageViewer.dismissFromImageView = dismissImageView;
     }
@@ -146,7 +141,7 @@
 
 
 -(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
-    if ([dismissed isKindOfClass:[UINavigationController class]] && [[(UINavigationController*)dismissed  viewControllers].lastObject isKindOfClass:MHGalleryImageViewerViewController.class]) {
+    if ([[(UINavigationController*)dismissed  viewControllers].lastObject isKindOfClass:MHGalleryImageViewerViewController.class]) {
         MHGalleryImageViewerViewController *imageViewer = [(UINavigationController*)dismissed  viewControllers].lastObject;
         MHImageViewController *viewer = imageViewer.pageViewController.viewControllers.firstObject;
         
@@ -171,7 +166,7 @@
                                                                   presentingController:(UIViewController *)presenting
                                                                       sourceController:(UIViewController *)source {
     UINavigationController *nav = (UINavigationController*)presented;
-    if ([nav isKindOfClass:[UINavigationController class]] && [nav.viewControllers.lastObject  isKindOfClass:MHGalleryImageViewerViewController.class]) {
+    if ([nav.viewControllers.lastObject  isKindOfClass:MHGalleryImageViewerViewController.class]) {
         MHGalleryImageViewerViewController *imageViewer = nav.viewControllers.lastObject;
         if (imageViewer.interactivePresentationTranstion) {
             MHTransitionPresentMHGallery *detail = imageViewer.interactivePresentationTranstion;

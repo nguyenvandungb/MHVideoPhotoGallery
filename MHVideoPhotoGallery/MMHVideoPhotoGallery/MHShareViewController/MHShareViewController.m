@@ -876,9 +876,10 @@
             }else if (item.image) {
                 [self addDataToDownloadArray:item.image];
             }else{
-                
-                [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:item.URLString] options:SDWebImageContinueInBackground progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                    
+                NSURL *url = [NSURL URLWithString:item.URLString];
+                [[SDWebImageManager sharedManager] loadImageWithURL: url options:  SDWebImageContinueInBackground progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+
+                } completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
                     MHImageURL *imageURLMH = [MHImageURL.alloc initWithURL:item.URLString
                                                                      image:image];
                     [weakSelf addDataToDownloadArray:imageURLMH];
@@ -909,7 +910,7 @@
 
 -(UIBarButtonItem*)nextBarButtonItem{
     return [UIBarButtonItem.alloc initWithTitle:@"Next"
-                                          style:UIBarButtonItemStylePlain
+                                          style:UIBarButtonItemStyleBordered
                                          target:self
                                          action:@selector(showShareSheet)];
 }
